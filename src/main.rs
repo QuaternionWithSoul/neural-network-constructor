@@ -3,11 +3,10 @@ mod matrix;
 use matrix::*;
 
 fn main() {
-    let x: Matrix<u8, 2, 3> = mtrx![
-        [1, 2, 3],
-        [4, 5, 6]
-    ];
+    let a: Matrix<u8, 1, 2> = mtrx![1, 0];
+    let b: Matrix<u8, 1, 2> = mtrx![0, 1];
 
-    Matrix::prnt(&x);
-    Matrix::prnt(&x.t());
+    let x: Matrix<Matrix<u8, 1, 2>, 1, 2> = mtrx![a, b];
+
+    println!("{:?}", x.into_inner());
 }

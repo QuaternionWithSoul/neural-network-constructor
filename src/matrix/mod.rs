@@ -9,21 +9,20 @@ use std::{
 };
 
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Matrix<T, const ROWS: usize, const COLS: usize> {
     content: [[T; COLS]; ROWS],
 }
 
+
 #[macro_export]
 macro_rules! mtrx {
-    ($([$($elem:expr),* $(,)?]),* $(,)?) => {{
-        Matrix::from([
-            $([$($elem),*]),*
-        ])
+    ($([$($elem:expr),*]),* $(,)?) => {{
+        Matrix::from([$([$($elem),*]),*])
     }};
     
     ($($elem:expr),* $(,)?) => {{
-        Matrix::from([$($elem),*])
+        Matrix::from([[$($elem),*]])
     }};
 }
 
@@ -34,7 +33,8 @@ impl<T, const ROWS: usize, const COLS: usize> Matrix<T, ROWS, COLS> {
         Self { content: [[T::default(); COLS]; ROWS] }
     }
 
-    pub fn into_inner(self) -> [[T; COLS]; ROWS] {
+    pub fn into_inner(&self) -> [[T; COLS]; ROWS]
+    where T: Copy {
         self.content
     }
 
@@ -53,17 +53,43 @@ impl<T, const ROWS: usize, const COLS: usize> Matrix<T, ROWS, COLS> {
     }
 
 
-    pub fn prnt(mtrx: &Matrix<T, ROWS, COLS>)
+    pub fn prnt(&self)
     where T: Debug {
         println!("[");
 
-        for y in 0..(ROWS - 1) {
-            println!("  {:?},", mtrx.content[y]);
+        for x in 0..(ROWS - 1) {
+            println!("  [");
+
+            for y in 0..(COLS - 1) {
+                println!("    {:?}", self.content[x][y]);
+            }
+
+            println!("    {:?}", self.content[x][COLS - 1]);
+
+            println!("  ],");
         }
 
-        println!("  {:?}", mtrx.content[ROWS - 1]);
+        println!("  [");
+
+            for y in 0..(COLS - 1) {
+                println!("    {:?}", self.content[ROWS - 1][y]);
+            }
+
+            println!("    {:?}", self.content[ROWS - 1][COLS - 1]);
+
+            println!("  ],");
 
         println!("]");
+    }
+}
+
+
+impl<T: Default, const ROWS: usize, const COLS: usize> Default
+for Matrix<T, ROWS, COLS> where T: Default + Copy {
+    fn default() -> Self {
+        Matrix {
+            content: [[T::default(); COLS]; ROWS],
+        }
     }
 }
 
@@ -139,4 +165,6 @@ for Matrix<T, ROWS, COLS> where T: Copy {
         self.content
     }
 }
+
+
 
