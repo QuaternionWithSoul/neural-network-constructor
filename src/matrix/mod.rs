@@ -28,17 +28,20 @@ macro_rules! mtrx {
 
 
 impl<T, const ROWS: usize, const COLS: usize> Matrix<T, ROWS, COLS> {
+    #[allow(unused)]
     pub fn new() -> Self
     where T: Default + Copy {
         Self { content: [[T::default(); COLS]; ROWS] }
     }
 
+    #[allow(unused)]
     pub fn into_inner(&self) -> [[T; COLS]; ROWS]
     where T: Copy {
         self.content
     }
 
 
+    #[allow(unused)]
     pub fn t(&self) -> Matrix<T, COLS, ROWS>
     where T: Default + Copy {
         let mut content: [[T; ROWS]; COLS] = [[T::default(); ROWS]; COLS];
@@ -53,6 +56,7 @@ impl<T, const ROWS: usize, const COLS: usize> Matrix<T, ROWS, COLS> {
     }
 
 
+    #[allow(unused)]
     pub fn prnt(&self)
     where T: Debug {
         println!("[");

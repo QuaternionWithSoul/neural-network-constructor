@@ -1,0 +1,1 @@
+I'm going to make a neural network constructor. So far, only a module for archiving variables for datasets is ready. And also a module for working with matrices
